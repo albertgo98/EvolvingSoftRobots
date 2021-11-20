@@ -92,8 +92,8 @@ vector<int> face4_springs = {2, 9, 8, 17, 16, 20}; //face 4 (right face) corresp
 vector<int> face5_springs = {18, 19, 20, 21, 22, 23}; // face 5 (top face) corresponds with these cube springs; only connects with face 0
 
 vector<float> const_k = {1000, 5000, 5000, 10000};
-vector<float> const_a = {0.1, 0.2};
-vector<float> const_w = {1.0, 3.0};
+vector<float> const_a = {0.1, 0.15, 0.2};
+vector<float> const_w = {3.0, 2*M_PI};
 vector<float> const_c = {0, 1, M_PI, 4};
 
 void initialize_masses(vector<PointMass> &masses);
@@ -281,7 +281,7 @@ int main(int argc, const char * argv[]) {
         }
 //        reset_forces(robot);
         evaluations += 1;
-//        cout << iterations << endl;
+        cout << evaluations << endl;
     
         
         
@@ -389,7 +389,7 @@ void create_equation(Controller &control){
     for (int i=0; i<11; i++){
         Equation eqn;
         int rand1 = rand() % 4;
-        int rand2 = rand() % 2;
+        int rand2 = rand() % 3;
         int rand3 = rand() % 2;
         int rand4 = rand() % 4;
         
