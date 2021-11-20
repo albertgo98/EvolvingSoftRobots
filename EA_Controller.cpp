@@ -11,6 +11,7 @@
 #include <numeric>
 #include <list>
 #include <random>
+#include <algorithm>
 
 using namespace std;
 
@@ -111,6 +112,7 @@ float determine_fitness(Controller &control, Robot robot);
 bool compareByFitness(const Controller &control1, const Controller &control2);
 void mutate(Controller &offspring);
 void breed(vector<Controller> &new_population, Controller control1, Controller control2, Robot &robot);
+void replenish_population(vector<Controller> &new_set, Robot &robot);
 
 
 // timing
@@ -147,7 +149,7 @@ int main(int argc, const char * argv[]) {
         vector<Controller> new_major;
         cout << population.size();
         cout << ", ";
-        cout << new_major.size() << endl;
+        cout << major_league.size() << endl;
         for (int i=0; i<population.size(); i++){
             int parent2 = rand() % 50;
             if(parent2 == i){
@@ -234,6 +236,7 @@ int main(int argc, const char * argv[]) {
             population.erase(population.begin(), population.begin()+50);
             
             vector<Controller> new_set;
+            replenish_population(new_set, robot);
             
             population.insert(population.end(), new_set.begin(), new_set.end());
             
