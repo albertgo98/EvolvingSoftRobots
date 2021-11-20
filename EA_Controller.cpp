@@ -240,8 +240,49 @@ int main(int argc, const char * argv[]) {
             sort(population.begin(), population.end(), compareByFitness);
             sort(major_league.begin(), major_league.end(), compareByFitness);
         }
+        if (major_league.size() > 0){
+            cout << "Major League update: ";
+            cout << major_league[0].fitness << endl;
+            
+            cout << "< ";
+            for (int j=0; j<major_league[0].motor.size(); j++){
+                cout << "[";
+                cout << major_league[0].motor[j].k;
+                cout << ", ";
+                cout << major_league[0].motor[j].a;
+                cout << ", ";
+                cout << major_league[0].motor[j].w;
+                cout << ", ";
+                cout << major_league[0].motor[j].c;
+                cout << "]";
+                cout << ", ";
+            }
+            cout << "> " << endl;
+        }
+        else{
+            cout << "Status update: ";
+            cout << population[0].fitness << endl;
+            cout << "Updating population..." << endl;
+            
+            cout << "< ";
+            for (int j=0; j<population[0].motor.size(); j++){
+                cout << "[";
+                cout << population[0].motor[j].k;
+                cout << ", ";
+                cout << population[0].motor[j].a;
+                cout << ", ";
+                cout << population[0].motor[j].w;
+                cout << ", ";
+                cout << population[0].motor[j].c;
+                cout << "]";
+                cout << ", ";
+            }
+            cout << "> " << endl;
+        }
         
         cout << evaluations << endl;
+        
+        
     }
     
     return 0;
