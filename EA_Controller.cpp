@@ -73,8 +73,8 @@ float T = 0.0;
 float dt = 0.0001;
 bool breathing = true;
 
-const int cut_point1 = 7;
-const int cut_point2 = 14;
+const int cut_point1 = 6;
+const int cut_point2 = 15;
 
 vector<int> face0 = {0, 1, 2, 3}; //face 0 (bottom face) corresponds with these cube vertices; only connects with face 5
 vector<int> face1 = {0, 3, 4, 7}; //face 1(front face) corresponds with these cube vertices; only connects with face 3
@@ -1403,6 +1403,6 @@ void initialize_springs(vector<Spring> &springs){
 }
 
 bool compareByFitness(const Controller &control1, const Controller &control2){
-    return control1.fitness < control2.fitness;
+    return control1.fitness > control2.fitness;
 }
 
