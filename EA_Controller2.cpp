@@ -1424,5 +1424,5 @@ void initialize_springs(vector<Spring> &springs){
 }
 
 bool compareByFitness(const Controller &control1, const Controller &control2){
-    return control1.fitness < control2.fitness;
+    return control1.fitness > control2.fitness;
 }
