@@ -66,7 +66,7 @@ struct Controller{
 };
 
 const double g = -9.81; //acceleration due to gravity
-const double b = 1; //damping (optional) Note: no damping means your cube will bounce forever
+const double b = 1.0; //damping (optional) Note: no damping means your cube will bounce forever
 const float spring_constant = 5000.0f; //this worked best for me given my dt and mass of each PointMass
 const float mu_s = 0.74; //coefficient of static friction
 const float mu_k = 0.57; //coefficient of kinetic friction
@@ -92,8 +92,8 @@ vector<int> face4_springs = {2, 9, 8, 17, 16, 20}; //face 4 (right face) corresp
 vector<int> face5_springs = {18, 19, 20, 21, 22, 23}; // face 5 (top face) corresponds with these cube springs; only connects with face 0
 
 vector<float> const_k = {1000, 5000, 5000, 10000};
-vector<float> const_a = {0.1, 0.2};
-vector<float> const_w = {1.0, 3.0};
+vector<float> const_a = {0.1, 0.15, 0.2};
+vector<float> const_w = {3.0, 2*M_PI};
 vector<float> const_c = {0, 1, M_PI, 4};
 
 void initialize_masses(vector<PointMass> &masses);
@@ -181,7 +181,7 @@ int main(int argc, const char * argv[]) {
         
         evaluations += 1;
         
-        if (evaluations % 15 == 0){
+        if (evaluations % 10 == 0){
             if (major_league.size() > 0){
                 cout << "Major League update: ";
                 cout << major_league[0].fitness << endl;
@@ -386,7 +386,7 @@ void create_equation(Controller &control){
     for (int i=0; i<22; i++){
         Equation eqn;
         int rand1 = rand() % 4;
-        int rand2 = rand() % 2;
+        int rand2 = rand() % 3;
         int rand3 = rand() % 2;
         int rand4 = rand() % 4;
         
