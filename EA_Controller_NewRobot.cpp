@@ -94,7 +94,7 @@ vector<int> face5_springs = {18, 19, 20, 21, 22, 23}; // face 5 (top face) corre
 vector<float> const_k = {1000, 5000, 5000, 10000};
 vector<float> const_a = {0.1, 0.15, 0.2};
 vector<float> const_w = {3.0, 2*M_PI};
-vector<float> const_c = {0, 1, M_PI, 4};
+vector<float> const_c = {0, M_PI};
 
 void initialize_masses(vector<PointMass> &masses);
 void initialize_springs(vector<Spring> &springs);
@@ -182,7 +182,7 @@ int main(int argc, const char * argv[]) {
         
         evaluations += 1;
         
-        if (evaluations % 15 == 0){
+        if (evaluations % 10 == 0){
             if (major_league.size() > 0){
                 cout << "Major League update: ";
                 cout << major_league[0].fitness << endl;
@@ -280,7 +280,6 @@ int main(int argc, const char * argv[]) {
             cout << "> " << endl;
         }
 //        reset_forces(robot);
-        evaluations += 1;
         cout << evaluations << endl;
     
         
