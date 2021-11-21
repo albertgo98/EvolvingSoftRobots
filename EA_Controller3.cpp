@@ -94,7 +94,7 @@ vector<int> face5_springs = {18, 19, 20, 21, 22, 23}; // face 5 (top face) corre
 vector<float> const_k = {1000, 5000, 5000, 10000};
 vector<float> const_a = {0.1, 0.15, 0.2};
 vector<float> const_w = {3.0, 2*M_PI};
-vector<float> const_c = {0, 1, M_PI, 4};
+vector<float> const_c = {0, M_PI};
 
 void initialize_masses(vector<PointMass> &masses);
 void initialize_springs(vector<Spring> &springs);
@@ -497,8 +497,8 @@ void breed(vector<Controller> &new_population, Controller control1, Controller c
         mutate(offspring);
     }
     
-    cout << "Offspring size: ";
-    cout << offspring.motor.size() << endl;
+//    cout << "Offspring size: ";
+//    cout << offspring.motor.size() << endl;
     
     offspring.fitness = determine_fitness(offspring, robot);
     
