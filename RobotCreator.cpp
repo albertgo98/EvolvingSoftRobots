@@ -193,7 +193,7 @@ int main(int argc, const char * argv[]) {
         return -1;
     }
     
-    Shader shaderProgram("/Users/albertgo/Documents/MECS_4510/PSet_3b/RobotSimulator/Externals/Resources/Shaders/default.vert", "/Users/albertgo/Documents/MECS_4510/PSet_3b/RobotSimulator/Externals/Resources/Shaders/default.frag");
+    Shader shaderProgram("default.vert", "default.frag");
     
     glEnable(GL_DEPTH_TEST);
     
