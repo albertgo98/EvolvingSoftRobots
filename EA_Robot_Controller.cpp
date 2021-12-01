@@ -113,7 +113,7 @@ void update_breathing(Robot &robot, Controller &control);
 void initialize_robot(Robot &robot);
 void initialize_cube(Cube &cube);
 void fuse_faces(Cube &cube1, Cube &cube2, int cube1_index, int cube2_index, vector<PointMass> &masses, vector<Spring> &springs, int combine1, int combine2, vector<int> &masses_left, vector<int> &springs_left);
-void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &robot2, vector<Controller> &population);
+void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &robot2, vector<Controller> &population, vector<Controller> &major_league);
 void get_population(vector<Controller> &population, vector<Robot> &robot_population);
 void replenish_population(vector<Controller> &new_set, vector<Robot> &robot_population);
 void create_equation(Controller &control);
@@ -152,57 +152,59 @@ int main(int argc, const char * argv[]) {
     {
         
         vector<Robot> new_robot_population;
-        
-        for (int r=0; r<robot_population.size(); r++){
-            int parent2 = rand() % 10;
-            if(parent2 == r){
-                bool same = true;
-                while(same){
-                    parent2 = rand() % 10;
-                    if(parent2 != r){
-                        same = false;
-                    }
-                }
-            }
-            breed_robots(new_robot_population, robot_population[r], robot_population[parent2], population);
-        }
-        robot_population = new_robot_population;
-        
-        sort(robot_population.begin(), robot_population.end(), compareByFitnessR);
-        
         vector<Controller> new_population;
         vector<Controller> new_major;
         cout << population.size();
         cout << ", ";
         cout << major_league.size() << endl;
-        for (int i=0; i<population.size(); i++){
-            int parent2 = rand() % 50;
-            if(parent2 == i){
-                bool same = true;
-                while(same){
-                    parent2 = rand() % 50;
-                    if(parent2 != i){
-                        same = false;
-                    }
-                }
-            }
-            breed(new_population, population[i], population[parent2], robot_population);
-            if (i < major_league.size() && major_league.size() > 0){
-                int parent2_m2 = rand() % 25;
-                if(parent2_m2 == i){
+        
+        if (evaluations % 2 == 0){
+            for (int r=0; r<robot_population.size(); r++){
+                int parent2 = rand() % 10;
+                if(parent2 == r){
                     bool same = true;
                     while(same){
-                        parent2_m2 = rand() % 25;
-                        if(parent2_m2 != i){
+                        parent2 = rand() % 10;
+                        if(parent2 != r){
                             same = false;
                         }
                     }
                 }
-                breed(new_major, major_league[i], major_league[parent2_m2], robot_population);
+                breed_robots(new_robot_population, robot_population[r], robot_population[parent2], population, major_league);
             }
+            robot_population = new_robot_population;
+            sort(robot_population.begin(), robot_population.end(), compareByFitnessR);
         }
-        population = new_population;
-        major_league = new_major;
+        else{
+            for (int i=0; i<population.size(); i++){
+                int parent2 = rand() % 50;
+                if(parent2 == i){
+                    bool same = true;
+                    while(same){
+                        parent2 = rand() % 50;
+                        if(parent2 != i){
+                            same = false;
+                        }
+                    }
+                }
+                breed(new_population, population[i], population[parent2], robot_population);
+                if (i < major_league.size() && major_league.size() > 0){
+                    int parent2_m2 = rand() % 25;
+                    if(parent2_m2 == i){
+                        bool same = true;
+                        while(same){
+                            parent2_m2 = rand() % 25;
+                            if(parent2_m2 != i){
+                                same = false;
+                            }
+                        }
+                    }
+                    breed(new_major, major_league[i], major_league[parent2_m2], robot_population);
+                }
+            }
+            population = new_population;
+            major_league = new_major;
+        }
         
         sort(population.begin(), population.end(), compareByFitness);
         sort(major_league.begin(), major_league.end(), compareByFitness);
@@ -246,54 +248,108 @@ int main(int argc, const char * argv[]) {
             sort(robot_population.begin(), robot_population.end(), compareByFitnessR);
         }
         
-        cout << "Best fitness so far: ";
-        cout << robot_population[0].fitness << endl;
-        
-        cout << "BEST CONTROLLER = ";
-        cout << "< ";
-        for (int j=0; j<robot_population[0].best_controller.motor.size(); j++){
-            cout << "[";
-            cout << robot_population[0].best_controller.motor[j].k;
-            cout << ", ";
-            cout << robot_population[0].best_controller.motor[j].a;
-            cout << ", ";
-            cout << robot_population[0].best_controller.motor[j].w;
-            cout << ", ";
-            cout << robot_population[0].best_controller.motor[j].c;
-            cout << "]";
-            cout << ", ";
-        }
-        cout << "> " << endl;
-        
-        cout << "BEST ROBOT" << endl;
-        cout << "-------------" << endl;
-        for (int l=0; l<robot_population[0].all_cubes.size(); l++){
-            cout << "Cube Number = ";
-            cout << l << endl;
-            cout << "Fused to Cube = ";
-            for (int n=0; n<robot_population[0].all_cubes[l].joinedCubes.size(); n++){
-                cout << robot_population[0].all_cubes[l].joinedCubes[n];
-                if (n == robot_population[0].all_cubes[l].joinedCubes.size()-1){
-                    cout << "; " << endl;
-                }
-                else{
-                    cout << ", ";
-                }
+        for (int s=0; s < robot_population.size(); s++){
+            cout << "ROBOT NUMBER = ";
+            cout << s << endl;
+            
+            cout << "ROBOT FITNESS = ";
+            cout << robot_population[s].fitness << endl;
+            
+            cout << "CONTROLLER = ";
+            cout << "< ";
+            for (int j=0; j<robot_population[s].best_controller.motor.size(); j++){
+                cout << "[";
+                cout << robot_population[s].best_controller.motor[j].k;
+                cout << ", ";
+                cout << robot_population[s].best_controller.motor[j].a;
+                cout << ", ";
+                cout << robot_population[s].best_controller.motor[j].w;
+                cout << ", ";
+                cout << robot_population[s].best_controller.motor[j].c;
+                cout << "]";
+                cout << ", ";
             }
-            cout << "Its faces fused = ";
-            for (int n=0; n<robot_population[0].all_cubes[l].joinedFaces.size(); n++){
-                cout << robot_population[0].all_cubes[l].joinedFaces[n];
-                if (n == robot_population[0].all_cubes[l].joinedFaces.size()-1){
-                    cout << "; " << endl;
+            cout << "> " << endl;
+            
+            cout << "ROBOT" << endl;
+            cout << "-------------" << endl;
+            for (int l=0; l<robot_population[0].all_cubes.size(); l++){
+                cout << "Cube Number = ";
+                cout << l << endl;
+                cout << "Fused to Cube = ";
+                for (int n=0; n<robot_population[0].all_cubes[l].joinedCubes.size(); n++){
+                    cout << robot_population[0].all_cubes[l].joinedCubes[n];
+                    if (n == robot_population[0].all_cubes[l].joinedCubes.size()-1){
+                        cout << "; " << endl;
+                    }
+                    else{
+                        cout << ", ";
+                    }
                 }
-                else{
-                    cout << ", ";
+                cout << "Its faces fused = ";
+                for (int n=0; n<robot_population[0].all_cubes[l].joinedFaces.size(); n++){
+                    cout << robot_population[0].all_cubes[l].joinedFaces[n];
+                    if (n == robot_population[0].all_cubes[l].joinedFaces.size()-1){
+                        cout << "; " << endl;
+                    }
+                    else{
+                        cout << ", ";
+                    }
                 }
+                cout << "************" << endl;
             }
-            cout << "************" << endl;
+            cout << "-------------" << endl;
         }
-        cout << "END OF BEST ROBOT" << endl;
-        cout << "-------------" << endl;
+        cout << "FINISHED PRINTING OUT ROBOTS" << endl;
+        
+//        cout << "Best fitness so far: ";
+//        cout << robot_population[0].fitness << endl;
+//
+//        cout << "BEST CONTROLLER = ";
+//        cout << "< ";
+//        for (int j=0; j<robot_population[0].best_controller.motor.size(); j++){
+//            cout << "[";
+//            cout << robot_population[0].best_controller.motor[j].k;
+//            cout << ", ";
+//            cout << robot_population[0].best_controller.motor[j].a;
+//            cout << ", ";
+//            cout << robot_population[0].best_controller.motor[j].w;
+//            cout << ", ";
+//            cout << robot_population[0].best_controller.motor[j].c;
+//            cout << "]";
+//            cout << ", ";
+//        }
+//        cout << "> " << endl;
+//
+//        cout << "BEST ROBOT" << endl;
+//        cout << "-------------" << endl;
+//        for (int l=0; l<robot_population[0].all_cubes.size(); l++){
+//            cout << "Cube Number = ";
+//            cout << l << endl;
+//            cout << "Fused to Cube = ";
+//            for (int n=0; n<robot_population[0].all_cubes[l].joinedCubes.size(); n++){
+//                cout << robot_population[0].all_cubes[l].joinedCubes[n];
+//                if (n == robot_population[0].all_cubes[l].joinedCubes.size()-1){
+//                    cout << "; " << endl;
+//                }
+//                else{
+//                    cout << ", ";
+//                }
+//            }
+//            cout << "Its faces fused = ";
+//            for (int n=0; n<robot_population[0].all_cubes[l].joinedFaces.size(); n++){
+//                cout << robot_population[0].all_cubes[l].joinedFaces[n];
+//                if (n == robot_population[0].all_cubes[l].joinedFaces.size()-1){
+//                    cout << "; " << endl;
+//                }
+//                else{
+//                    cout << ", ";
+//                }
+//            }
+//            cout << "************" << endl;
+//        }
+//        cout << "END OF BEST ROBOT" << endl;
+//        cout << "-------------" << endl;
 
         cout << "EVALUATIONS = ";
         cout << evaluations << endl;
@@ -831,7 +887,7 @@ void replenish_robot_population(vector<Robot> &new_robot_set){
     }
 }
 
-void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &robot2, vector<Controller> &population){
+void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &robot2, vector<Controller> &population, vector<Controller> &major_league){
     Robot offspring;
     vector<PointMass> masses;
     vector<Spring> springs;
@@ -1320,6 +1376,19 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
         }
     }
     
+    if (major_league.size() > 0){
+        for (int m=0; m<major_league.size(); m++){
+            float f = determine_fitness(major_league[m], offspring);
+            if (f > offspring.fitness){
+                offspring.fitness = f;
+                offspring.best_controller = major_league[m];
+            }
+            if (f > major_league[m].fitness){
+                major_league[m].fitness = f;
+            }
+        }
+    }
+    
     if (offspring.fitness > robot1.fitness){
         new_robot_population.push_back(offspring);
     }
@@ -1356,7 +1425,6 @@ void initialize_robot(Robot &robot){
         }
         else{
             int cube1 = rand() % available_cubes.size();
-//            cout << all_cubes[available_cubes[cube1]].free_faces.size() << endl;
             cube1 = available_cubes[cube1];
             int face_1 = rand() % all_cubes[cube1].free_faces.size();
             int cube1_face1 = all_cubes[cube1].free_faces[face_1];
@@ -1461,8 +1529,6 @@ void initialize_robot(Robot &robot){
                 cube.center[1] -= y_disp;
                 cube.center[2] -= z_disp;
             }
-            cout << "Face 2 = ";
-            cout << face_2 << endl;
             
             fuse_faces(all_cubes[cube1], cube, cube1, i, masses, springs, cube1_face1, face_2, masses_left, springs_left);
             
@@ -1535,9 +1601,6 @@ void initialize_robot(Robot &robot){
                 }
             }
             
-            cout << "Masses left = ";
-            cout << masses_left.size() << endl;
-            
             for (int j=0; j<masses_left.size(); j++){
                 // if the vertex is not part of face 2 then you can add it to the big vector of masses and make the ID the index of where it is in the big vector of masses
                 cube.masses[masses_left[j]].ID = masses.size();
@@ -1545,9 +1608,6 @@ void initialize_robot(Robot &robot){
                 masses.push_back(cube.masses[masses_left[j]]);
                 
             }
-            
-            cout << "Springs left = ";
-            cout << springs_left.size() << endl;
             
             for (int k=0; k<springs_left.size(); k++){
                 int p0 = cube.springs[springs_left[k]].m0;
