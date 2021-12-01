@@ -986,7 +986,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                 
                 for (int q=0; q<all_cubes.size(); q++){
                     if (all_cubes[q].center[0]-cube.center[0] == 0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                        cout << "Also a cube to the right" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 2)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 4)-cube.free_faces.begin();
@@ -997,7 +996,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                         fuse_faces(all_cubes[q], cube, q, i, masses, springs, 2, 4, masses_left, springs_left);
                     }
                     else if (all_cubes[q].center[0]-cube.center[0] == -0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                        cout << "Also a cube to the left" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 4)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 2)-cube.free_faces.begin();
@@ -1008,7 +1006,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                         fuse_faces(all_cubes[q], cube, q, i, masses, springs, 4, 2, masses_left, springs_left);
                     }
                     else if (all_cubes[q].center[1]-cube.center[1] == 0.5 && all_cubes[q].center[0]-cube.center[0] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                        cout << "Also a cube in front" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 1)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 3)-cube.free_faces.begin();
@@ -1019,7 +1016,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                         fuse_faces(all_cubes[q], cube, q, i, masses, springs, 1, 3, masses_left, springs_left);
                     }
                     else if (all_cubes[q].center[1]-cube.center[1] == -0.5 && all_cubes[q].center[2]-cube.center[2] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                        cout << "Also a cube in back" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 3)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 1)-cube.free_faces.begin();
@@ -1030,7 +1026,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                         fuse_faces(all_cubes[q], cube, q, i, masses, springs, 3, 1, masses_left, springs_left);
                     }
                     else if (all_cubes[q].center[2]-cube.center[2] == 0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                        cout << "Also a cube on top" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 0)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 5)-cube.free_faces.begin();
@@ -1041,7 +1036,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                         fuse_faces(all_cubes[q], cube, q, i, masses, springs, 0, 5, masses_left, springs_left);
                     }
                     else if (all_cubes[q].center[2]-cube.center[2] == -0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                        cout << "Also a cube on bottom" << endl;
                         
                         int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 5)-all_cubes[q].free_faces.begin();
                         int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 0)-cube.free_faces.begin();
@@ -1207,7 +1201,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
             
             for (int q=0; q<all_cubes.size(); q++){
                 if (all_cubes[q].center[0]-cube.center[0] == 0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                    cout << "Also a cube to the right" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 2)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 4)-cube.free_faces.begin();
@@ -1218,7 +1211,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     fuse_faces(all_cubes[q], cube, q, i, masses, springs, 2, 4, masses_left, springs_left);
                 }
                 else if (all_cubes[q].center[0]-cube.center[0] == -0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                    cout << "Also a cube to the left" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 4)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 2)-cube.free_faces.begin();
@@ -1229,7 +1221,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     fuse_faces(all_cubes[q], cube, q, i, masses, springs, 4, 2, masses_left, springs_left);
                 }
                 else if (all_cubes[q].center[1]-cube.center[1] == 0.5 && all_cubes[q].center[0]-cube.center[0] == 0 && all_cubes[q].center[2]-cube.center[2] == 0 && q != cube1){
-                    cout << "Also a cube in front" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 1)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 3)-cube.free_faces.begin();
@@ -1240,7 +1231,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     fuse_faces(all_cubes[q], cube, q, i, masses, springs, 1, 3, masses_left, springs_left);
                 }
                 else if (all_cubes[q].center[1]-cube.center[1] == -0.5 && all_cubes[q].center[2]-cube.center[2] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                    cout << "Also a cube in back" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 3)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 1)-cube.free_faces.begin();
@@ -1251,7 +1241,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     fuse_faces(all_cubes[q], cube, q, i, masses, springs, 3, 1, masses_left, springs_left);
                 }
                 else if (all_cubes[q].center[2]-cube.center[2] == 0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                    cout << "Also a cube on top" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 0)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 5)-cube.free_faces.begin();
@@ -1262,7 +1251,6 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     fuse_faces(all_cubes[q], cube, q, i, masses, springs, 0, 5, masses_left, springs_left);
                 }
                 else if (all_cubes[q].center[2]-cube.center[2] == -0.5 && all_cubes[q].center[1]-cube.center[1] == 0 && all_cubes[q].center[0]-cube.center[0] == 0 && q != cube1){
-                    cout << "Also a cube on bottom" << endl;
                     
                     int itr3 = find(all_cubes[q].free_faces.begin(), all_cubes[q].free_faces.end(), 5)-all_cubes[q].free_faces.begin();
                     int itr4 = find(cube.free_faces.begin(), cube.free_faces.end(), 0)-cube.free_faces.begin();
