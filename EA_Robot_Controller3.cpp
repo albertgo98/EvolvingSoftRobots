@@ -70,6 +70,7 @@ struct Robot{
     vector<int> available_cubes;
     float fitness = 0;
     Controller best_controller;
+    vector<float> center;
 };
 
 const double g = -9.81; //acceleration due to gravity
@@ -123,7 +124,7 @@ float determine_fitness(Controller &control, Robot robot);
 void breed(vector<Controller> &new_population, Controller control1, Controller control2, vector<Robot> &robot_population);
 void get_robot_population(vector<Robot> &robot_population);
 bool compareByFitnessR(const Robot &robot1, const Robot &robot2);
-void replenish_robot_population(vector<Robot> &new_robot_set);
+void replenish_robot_population(vector<Robot> &new_robot_set, vector<Controller> &population, vector<Controller> &major_league);
 
 
 int main(int argc, const char * argv[]) {
@@ -134,6 +135,24 @@ int main(int argc, const char * argv[]) {
     vector<Robot> robot_population;
     
     get_robot_population(robot_population);
+    
+    for (int q=0; q< robot_population.size(); q++){
+        float x_center = 0;
+        float y_center = 0;
+        float z_center = 0;
+        for (int m=0; m<robot_population[q].masses.size(); m++){
+            x_center += robot_population[q].masses[m].position[0];
+            y_center += robot_population[q].masses[m].position[1];
+            z_center += robot_population[q].masses[m].position[2];
+        }
+        
+        x_center = x_center/robot_population[q].masses.size();
+        y_center = y_center/robot_population[q].masses.size();
+        z_center = z_center/robot_population[q].masses.size();
+        
+        robot_population[q].center = {x_center, y_center, z_center};
+    }
+    
     cout<< "Initialized Robot Population" << endl;
     
     vector<Controller> population;
@@ -216,16 +235,6 @@ int main(int argc, const char * argv[]) {
         evaluations += 1;
         
         if (evaluations % 10 == 0){
-            //UPDATING ROBOT POPULATION; TAKING OUT THE LEAST FIT AND REPLACING THEM RANDOMLY
-            //-----------------------------------------------------------------------------------------
-            
-            robot_population.erase(robot_population.begin()+10, robot_population.end());
-            
-            vector<Robot> new_robot_set;
-            replenish_robot_population(new_robot_set);
-            
-            robot_population.insert(robot_population.end(), new_robot_set.begin(), new_robot_set.end());
-            //-----------------------------------------------------------------------------------------
             
             //UPDATING CONTROLLER LITTLE LEAGUE AND MAJOR LEAGUE AND REPLENISHING CONTROLLER POPULATION
             //-----------------------------------------------------------------------------------------
@@ -242,6 +251,17 @@ int main(int argc, const char * argv[]) {
             replenish_population(new_set, robot_population);
             
             population.insert(population.end(), new_set.begin(), new_set.end());
+            //-----------------------------------------------------------------------------------------
+            
+            //UPDATING ROBOT POPULATION; TAKING OUT THE LEAST FIT AND REPLACING THEM RANDOMLY
+            //-----------------------------------------------------------------------------------------
+            
+            robot_population.erase(robot_population.begin()+10, robot_population.end());
+            
+            vector<Robot> new_robot_set;
+            replenish_robot_population(new_robot_set, population, major_league);
+            
+            robot_population.insert(robot_population.end(), new_robot_set.begin(), new_robot_set.end());
             //-----------------------------------------------------------------------------------------
             
             sort(population.begin(), population.end(), compareByFitness);
@@ -934,13 +954,54 @@ void get_robot_population(vector<Robot> &robot_population){
     }
 }
 
-void replenish_robot_population(vector<Robot> &new_robot_set){
+void replenish_robot_population(vector<Robot> &new_robot_set, vector<Controller> &population, vector<Controller> &major_league){
     int individuals = 0;
     
     while (individuals < 10) {
         cout << "New Robot" << endl;
         Robot robot;
         initialize_robot(robot);
+        
+        float x_center = 0;
+        float y_center = 0;
+        float z_center = 0;
+        for (int m=0; m<robot.masses.size(); m++){
+            x_center += robot.masses[m].position[0];
+            y_center += robot.masses[m].position[1];
+            z_center += robot.masses[m].position[2];
+        }
+        
+        x_center = x_center/robot.masses.size();
+        y_center = y_center/robot.masses.size();
+        z_center = z_center/robot.masses.size();
+        
+        robot.center = {x_center, y_center, z_center};
+        
+        for (int c=0; c<population.size(); c++){
+            population[c].start = robot.center;
+            float f = determine_fitness(population[c], robot);
+            if (f > robot.fitness){
+                robot.fitness = f;
+                robot.best_controller = population[c];
+            }
+            if (f > population[c].fitness){
+                population[c].fitness = f;
+            }
+        }
+        
+        if (major_league.size() > 0){
+            for (int m=0; m<major_league.size(); m++){
+                major_league[m].start = robot.center;
+                float f = determine_fitness(major_league[m], robot);
+                if (f > robot.fitness){
+                    robot.fitness = f;
+                    robot.best_controller = major_league[m];
+                }
+                if (f > major_league[m].fitness){
+                    major_league[m].fitness = f;
+                }
+            }
+        }
         
         new_robot_set.push_back(robot);
         individuals += 1;
@@ -1411,7 +1472,23 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
     offspring.all_cubes = all_cubes;
     offspring.available_cubes = available_cubes;
     
+    float x_center = 0;
+    float y_center = 0;
+    float z_center = 0;
+    for (int m=0; m<offspring.masses.size(); m++){
+        x_center += offspring.masses[m].position[0];
+        y_center += offspring.masses[m].position[1];
+        z_center += offspring.masses[m].position[2];
+    }
+    
+    x_center = x_center/offspring.masses.size();
+    y_center = y_center/offspring.masses.size();
+    z_center = z_center/offspring.masses.size();
+    
+    offspring.center = {x_center, y_center, z_center};
+    
     for (int c=0; c<population.size(); c++){
+        population[c].start = offspring.center;
         float f = determine_fitness(population[c], offspring);
         if (f > offspring.fitness){
             offspring.fitness = f;
@@ -1424,6 +1501,7 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
     
     if (major_league.size() > 0){
         for (int m=0; m<major_league.size(); m++){
+            major_league[m].start = offspring.center;
             float f = determine_fitness(major_league[m], offspring);
             if (f > offspring.fitness){
                 offspring.fitness = f;
