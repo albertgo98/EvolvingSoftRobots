@@ -159,6 +159,7 @@ int main(int argc, const char * argv[]) {
         cout << major_league.size() << endl;
         
         if (evaluations % 2 == 0){
+            cout << "Evolving Robots Now" << endl;
             for (int r=0; r<robot_population.size(); r++){
                 int parent2 = rand() % 10;
                 if(parent2 == r){
@@ -176,6 +177,7 @@ int main(int argc, const char * argv[]) {
             sort(robot_population.begin(), robot_population.end(), compareByFitnessR);
         }
         else{
+            cout << "Evolving Controller Now" << endl;
             for (int i=0; i<population.size(); i++){
                 int parent2 = rand() % 50;
                 if(parent2 == i){
@@ -646,34 +648,92 @@ void update_breathing(Robot &robot, Controller &control){
         float w = control.motor[i].w;
         float c = control.motor[i].c;
 
-        robot.springs[ind0].L0 = robot.all_cubes[i].springs[0].original_L0 + a*sin(w*T+c);
-        robot.springs[ind1].L0 = robot.all_cubes[i].springs[1].original_L0 + a*sin(w*T+c);
-        robot.springs[ind2].L0 = robot.all_cubes[i].springs[2].original_L0 + a*sin(w*T+c);
-        robot.springs[ind3].L0 = robot.all_cubes[i].springs[3].original_L0 + a*sin(w*T+c);
-        robot.springs[ind4].L0 = robot.all_cubes[i].springs[4].original_L0 + a*sin(w*T+c);
-        robot.springs[ind5].L0 = robot.all_cubes[i].springs[5].original_L0 + a*sin(w*T+c);
-        robot.springs[ind6].L0 = robot.all_cubes[i].springs[6].original_L0 + a*sin(w*T+c);
-        robot.springs[ind7].L0 = robot.all_cubes[i].springs[7].original_L0 + a*sin(w*T+c);
-        robot.springs[ind8].L0 = robot.all_cubes[i].springs[8].original_L0 + a*sin(w*T+c);
-        robot.springs[ind9].L0 = robot.all_cubes[i].springs[9].original_L0 + a*sin(w*T+c);
-        robot.springs[ind10].L0 = robot.all_cubes[i].springs[10].original_L0 + a*sin(w*T+c);
-        robot.springs[ind11].L0 = robot.all_cubes[i].springs[11].original_L0 + a*sin(w*T+c);
-        robot.springs[ind12].L0 = robot.all_cubes[i].springs[12].original_L0 + a*sin(w*T+c);
-        robot.springs[ind13].L0 = robot.all_cubes[i].springs[13].original_L0 + a*sin(w*T+c);
-        robot.springs[ind14].L0 = robot.all_cubes[i].springs[14].original_L0 + a*sin(w*T+c);
-        robot.springs[ind15].L0 = robot.all_cubes[i].springs[15].original_L0 + a*sin(w*T+c);
-        robot.springs[ind16].L0 = robot.all_cubes[i].springs[16].original_L0 + a*sin(w*T+c);
-        robot.springs[ind17].L0 = robot.all_cubes[i].springs[17].original_L0 + a*sin(w*T+c);
-        robot.springs[ind18].L0 = robot.all_cubes[i].springs[18].original_L0 + a*sin(w*T+c);
-        robot.springs[ind19].L0 = robot.all_cubes[i].springs[19].original_L0 + a*sin(w*T+c);
-        robot.springs[ind20].L0 = robot.all_cubes[i].springs[20].original_L0 + a*sin(w*T+c);
-        robot.springs[ind21].L0 = robot.all_cubes[i].springs[21].original_L0 + a*sin(w*T+c);
-        robot.springs[ind22].L0 = robot.all_cubes[i].springs[22].original_L0 + a*sin(w*T+c);
-        robot.springs[ind23].L0 = robot.all_cubes[i].springs[23].original_L0 + a*sin(w*T+c);
-        robot.springs[ind24].L0 = robot.all_cubes[i].springs[24].original_L0 + a*sin(w*T+c);
-        robot.springs[ind25].L0 = robot.all_cubes[i].springs[25].original_L0 + a*sin(w*T+c);
-        robot.springs[ind26].L0 = robot.all_cubes[i].springs[26].original_L0 + a*sin(w*T+c);
-        robot.springs[ind27].L0 = robot.all_cubes[i].springs[27].original_L0 + a*sin(w*T+c);
+        for (int k=0; k<28; k++){
+            if (robot.all_cubes[i].springs[k].ID == ind0){
+                robot.springs[ind0].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind1){
+                robot.springs[ind1].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind2){
+                robot.springs[ind2].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind3){
+                robot.springs[ind3].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind4){
+                robot.springs[ind4].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind5){
+                robot.springs[ind5].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind6){
+                robot.springs[ind6].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind7){
+                robot.springs[ind7].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind8){
+                robot.springs[ind8].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind9){
+                robot.springs[ind9].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind10){
+                robot.springs[ind10].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind11){
+                robot.springs[ind11].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind12){
+                robot.springs[ind12].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind13){
+                robot.springs[ind13].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind14){
+                robot.springs[ind14].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind15){
+                robot.springs[ind15].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind16){
+                robot.springs[ind16].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind17){
+                robot.springs[ind17].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind18){
+                robot.springs[ind18].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind19){
+                robot.springs[ind19].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind20){
+                robot.springs[ind20].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind21){
+                robot.springs[ind21].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind22){
+                robot.springs[ind22].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind23){
+                robot.springs[ind23].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind24){
+                robot.springs[ind24].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind25){
+                robot.springs[ind25].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind26){
+                robot.springs[ind26].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+            else if (robot.all_cubes[i].springs[k].ID == ind27){
+                robot.springs[ind27].L0 = robot.all_cubes[i].springs[k].original_L0 + a*sin(w*T+c);;
+            }
+        }
 
         robot.springs[ind0].k = k;
         robot.springs[ind1].k = k;
@@ -972,9 +1032,7 @@ void breed_robots(vector<Robot> &new_robot_population, Robot &robot1, Robot &rob
                     cout << "CLASHING" << endl;
                     while (clashing) {
                         int itr6 = find(all_cubes[cube1].joinedFaces.begin(), all_cubes[cube1].joinedFaces.end(), cube1_face1)-all_cubes[cube1].joinedFaces.begin();
-                        cout << itr6 << endl;
                         cube1 = all_cubes[cube1].joinedCubes[itr6];
-                        cout << cube1 << endl;
                         if (find(all_cubes[cube1].free_faces.begin(), all_cubes[cube1].free_faces.end(), cube1_face1) != all_cubes[cube1].free_faces.end()){
                             clashing = false;
                         }
